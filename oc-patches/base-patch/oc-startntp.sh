@@ -15,7 +15,7 @@ sleep 5
 # Try and sync 
 while [ 1 ]; do
     echo -n "Attempting to sync initial time... "
-    ntpdate $OC_NTP_SERVER
+    /app/ntpdate $OC_NTP_SERVER
     if [ $? -ne 0 ]; then
         echo "Failed, sleeping and trying again..."
     else

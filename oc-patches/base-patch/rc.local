@@ -35,11 +35,16 @@ if [ -f /opt/etc/entware_release ]; then
   # Start entware system services, includes openssh
   /opt/etc/init.d/rc.unslung start
 
+  # Start wlan0 interface if available
+  /app/oc-startwifi.sh
+
   # Start DHCPD for usb0 network interface if available! If not then don't try.
   ifconfig usb0 && udhcpc -i usb0 -b -p /tmp/usb0_udhcpc.pid -s /usr/share/udhcpc/default.script -x hostname:Centauri-Carbon &
 
-  # Start wlan0 interface if available
-  /app/oc-startwifi.sh
+  # Load Realtek/ASIX kmods and start DHCPD for eth0 network interface if available! If not then don't try.
+  modprobe r8152
+  modprobe ax88179_178a
+  ifconfig eth0 && udhcpc -i eth0 -b -p /tmp/eth0_udhcpc.pid -s /usr/share/udhcpc/default.script -x hostname:Centauri-Carbon &
 fi
 # END: INITIALIZE OpenCentauri and entware
 

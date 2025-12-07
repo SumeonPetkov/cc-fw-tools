@@ -96,6 +96,10 @@ cd ./lib/modules
 ln -sf 5.4.61 5.4.61-ab1175
 cd -
 
+echo "Install Ethernet kmod(s)"
+cp "$CURRENT_PATCH_PATH/kmod/r8152.ko" "$SQUASHFS_ROOT/lib/modules/5.4.61/"
+cp "$CURRENT_PATCH_PATH/kmod/ax88179_178a.ko" "$SQUASHFS_ROOT/lib/modules/5.4.61/"
+
 echo Installing automatic wifi scripts/automation to run on boot
 # Install oc-startwifi.sh script to /app:
 cat "$CURRENT_PATCH_PATH/oc-startwifi.sh" > ./app/oc-startwifi.sh

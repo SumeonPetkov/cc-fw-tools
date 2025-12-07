@@ -1,0 +1,4 @@
+id = "usb_ethernet"
+name = "Enable USB Ethernet"
+compatible_versions = ["1.1.25", "1.1.40"]
+after = ["base"]

@@ -6,4 +6,7 @@
 
 set -e
 cd "$REPOSITORY_ROOT"
-OPTIONS_DIR="./RESOURCES/OPTIONS" ./RESOURCES/OPTIONS/uart/uart.sh . 2.3.9
+# AnyCubic variant (works for UART but /app/app no worky because DT is wrong)
+#OPTIONS_DIR="./RESOURCES/OPTIONS" ./RESOURCES/OPTIONS/uart/uart.sh . 2.3.9
+# OpenCentauri patched uBoot (AnyCubic + our CC board_config.dts and kernel_config.dts with a few mods for UART!)
+OPTIONS_DIR="./RESOURCES/OPTIONS" ./RESOURCES/OPTIONS/uart/uart.sh . oc239

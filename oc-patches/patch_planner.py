@@ -16,6 +16,9 @@ FW_VER = ""
 
 with open(os.path.join(PATCHES_ROOT, "patch_config")) as f:
     for line in f:
+        if line.startswith("#"):
+            continue
+
         items = line.strip().split("=", 1)
         if len(items) >= 2:
             key, value = items

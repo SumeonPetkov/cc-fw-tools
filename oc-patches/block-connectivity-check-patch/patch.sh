@@ -7,10 +7,6 @@ fi
 
 set -e
 
-cp "$CURRENT_PATCH_PATH/block-connectivity-checks.sh" "$SQUASHFS_ROOT/app/block-connectivity-checks.sh"
-chmod a+x "$SQUASHFS_ROOT/app/block-connectivity-checks.sh"
-echo "/app/block-connectivity-checks.sh &" >> "$SQUASHFS_ROOT/etc/rc.local"
-
 if [[ "$FW_VER" == "1.1.40" ]]; then
     echo "Applying binary patch for 1.1.40"
 
@@ -22,4 +18,9 @@ if [[ "$FW_VER" == "1.1.40" ]]; then
     bspatch ./app ./app-patch "$CURRENT_PATCH_PATH/disable-connectivity-checks-1.1.40.bsdiff"
     rm ./app
     mv ./app-patch ./app
+else
+    echo "Applying universal patch"
+    cp "$CURRENT_PATCH_PATH/block-connectivity-checks.sh" "$SQUASHFS_ROOT/app/block-connectivity-checks.sh"
+    chmod a+x "$SQUASHFS_ROOT/app/block-connectivity-checks.sh"
+    echo "/app/block-connectivity-checks.sh &" >> "$SQUASHFS_ROOT/etc/rc.local"
 fi

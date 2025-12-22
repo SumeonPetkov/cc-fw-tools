@@ -1173,9 +1173,10 @@
 			resets = <0x02 0x12>;
 			uart0_port = <0x00>;
 			uart0_type = <0x02>;
+			/* BEGIN: Kernel DTS patch0 override to enable UART0 */
 			/*status = "disabled";*/
-            /* Override to enable UART0 */
 			status = "okay";
+			/* END: Kernel DTS patch0 override to enable UART0 */
 			pinctrl-names = "default", "sleep";
 			pinctrl-0 = <0x14>;
 			pinctrl-1 = <0x15>;

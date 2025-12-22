@@ -822,7 +822,7 @@
 		spi0 = "/soc@29000000/spi@4025000";
 	};
 
-    /* Inject UART0 Definition */
+    /* BEGIN: Board DTS patch0 Inject UART0 Definition */
     uart0: uart@2500000 {
         compatible = "snps,dw-apb-uart";
         reg = <0x00 0x02500000 0x00 0x400>;
@@ -837,4 +837,5 @@
     aliases {
         serial0 = &uart0;
     };
+    /* END: Board DTS patch0 Inject UART0 Definition */
 };

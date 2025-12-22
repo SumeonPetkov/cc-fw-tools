@@ -37,12 +37,6 @@ echo -e "${YELLOW}INFO: Extracting to $target_folder ...${NC}"
 # Unzip the uboot package into the target folder
 unzip -oqq "$uboot_zip_file" -d "$target_folder"
 
-# Check if unzip succeeded
-if [ $? -ne 0 ]; then
-  echo -e "${RED}ERROR: Failed to unzip the uboot package ${NC}"
-  exit 3
-fi
-
 echo -e "${GREEN}INFO: UART-enabled UBoot and boot0 have been installed ${NC}"
 
 exit 0

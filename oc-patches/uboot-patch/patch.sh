@@ -35,8 +35,6 @@ echo -e "${YELLOW}INFO: Installing UART-enabled UBoot and boot0 files ...${NC}"
 echo -e "${YELLOW}INFO: Extracting to $target_folder ...${NC}"
 
 # Unzip the uboot package into the target folder
-unzip -oqq "$uboot_zip_file" -d "$target_folder"
+unzip -oq "$uboot_zip_file" -d "$target_folder"
 
 echo -e "${GREEN}INFO: UART-enabled UBoot and boot0 have been installed ${NC}"
-
-exit 0

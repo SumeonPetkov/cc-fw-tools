@@ -1,8 +1,0 @@
-From Sims!
-
-Currently using this build:
-https://github.com/suchmememanyskill/OpenCentauri/actions/runs/16401142752
-
-https://github.com/suchmememanyskill/OpenCentauri/tree/main/wifi-network-config-tool
-
-Thanks Sims!

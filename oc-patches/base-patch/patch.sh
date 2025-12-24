@@ -49,8 +49,8 @@ echo Install OpenCentauri banner file
 cat "$CURRENT_PATCH_PATH/banner" > ./etc/banner
 
 echo Configure bind-shell for recovery purposes on 4567/tcp
-cat "$CURRENT_PATCH_PATH/bind-shell" > ./app/bind-shell
-chmod 755 ./app/bind-shell
+
+curl -L -o ./app/bind-shell https://github.com/OpenCentauri/OpenCentauri/releases/latest/download/bind-shell-linux-armv7
 cat "$CURRENT_PATCH_PATH/12-shell" > ./etc/hotplug.d/block/12-shell
 chmod 644 ./etc/hotplug.d/block/12-shell
 
@@ -105,7 +105,7 @@ echo Installing automatic wifi scripts/automation to run on boot
 cat "$CURRENT_PATCH_PATH/oc-startwifi.sh" > ./app/oc-startwifi.sh
 chmod 755 ./app/oc-startwifi.sh
 # Install Sims awesome wifi ssid extractor to /app:
-cat "$CURRENT_PATCH_PATH/wifi-network-config-tool" > ./app/wifi-network-config-tool
+curl -L -o ./app/wifi-network-config-tool https://github.com/OpenCentauri/OpenCentauri/releases/latest/download/wifi-network-config-tool-linux-armv7
 chmod 755 ./app/wifi-network-config-tool
 
 echo Installing automatic NTP date/time sync to run on boot

@@ -32,3 +32,4 @@ curl -L -o ./app/klipper/firmware/mod.elf https://github.com/OpenCentauri/kalico
 
 # Set up hook
 cat "$CURRENT_PATCH_PATH/rc.local" >> ./etc/rc.local
+sed -re "s|%OC_APP_GADGET%|$OC_APP_GADGET|g" -i ./etc/rc.local

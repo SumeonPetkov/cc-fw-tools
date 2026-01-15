@@ -34,6 +34,11 @@ echo "Booting firmware on hotend..."
 echo "Booting firmware on bed..."
 /app/mcu-flasher --skip --no-wait /dev/ttyS4
 
+sleep 1
+
+echo "Booting firmware on hotend (again)..."
+/app/mcu-flasher --skip --no-wait /dev/serial/by-id/usb-ShenZhenCBD_STM32_Virtual_ComPort_367935503233-if00
+
 # TODO: Remove log
 /app/dsp-to-serial > /user-resource/dsptoserial.log 2>&1 &
 

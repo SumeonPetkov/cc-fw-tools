@@ -1,5 +1,7 @@
 #!/opt/bin/bash
 
+cd /app/klipper/recovery
+
 echo 201 > /sys/class/gpio/unexport
 echo 201 > /sys/class/gpio/export
 echo out > /sys/class/gpio/gpio201/direction

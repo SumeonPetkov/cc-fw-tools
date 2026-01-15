@@ -26,7 +26,7 @@ echo "Turning on hotend..."
 echo 1 > /sys/class/gpio/gpio140/value
 echo 140 > /sys/class/gpio/unexport
 
-sleep 2
+sleep 3
 
 echo "Booting firmware on hotend..."
 /app/mcu-flasher --skip --no-wait /dev/serial/by-id/usb-ShenZhenCBD_STM32_Virtual_ComPort_367935503233-if00

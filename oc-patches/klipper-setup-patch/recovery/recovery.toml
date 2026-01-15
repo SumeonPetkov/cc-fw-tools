@@ -1,0 +1,32 @@
+window_title = "Klipper Recovery"
+
+[display.framebuffer]
+fb_path = "/dev/fb0"
+event_path = "/dev/input/event1"
+
+[scripts."Flash hotend.bin to hotend"]
+tasks = [
+    { name = "Flash hotend", command = ["./flash-hotend.sh"], show_stdout = true },
+]
+index = 0
+
+[scripts."Flash bed.bin to bed"]
+tasks = [
+    { name = "Flash bed", command = ["./flash-bed.sh"], show_stdout = true },
+]
+index = 1
+
+[scripts."Disable klipper mode"]
+tasks = [
+    { name = "Disable klipper mode", command = ["./uninstall.sh"], show_stdout = true },
+]
+completed_actions = [
+    { name = "Reboot", command = ["/bin/sh", "-c", "reboot"] },
+]
+index = 2
+
+[scripts."Reboot"]
+tasks = [
+    { name = "Reboot", command = ["/bin/sh", "-c", "reboot"] },
+]
+index = 3

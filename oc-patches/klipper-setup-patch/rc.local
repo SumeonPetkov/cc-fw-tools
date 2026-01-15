@@ -1,0 +1,18 @@
+
+if [ -e /user-resource/OpenCentauri/klipper ]
+  # In klipper mode, skip booting normally...
+  if [ -e %OC_APP_GADGET% ]; then
+    # Gadget Mode pi present! Booting into relay mode...
+    /app/klipper/runtime/start.sh %OC_APP_GADGET% &
+  else
+    # Gadget mode pi not present! Something has gone wrong, booting recovery...
+    /app/klipper/recovery/recovery.sh &
+  fi
+  exit 0
+fi
+
+if [ -e %OC_APP_GADGET% ]; then
+  # Gadget Mode pi present! Continuing boot without /app/app...
+  exit 0
+fi
+

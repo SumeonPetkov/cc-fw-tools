@@ -1,0 +1,14 @@
+[hotend]
+device_path = "/dev/serial/by-id/usb-Klipper_stm32f401xc_1B0041000B51333235353836-if00"
+baud_rate = 115200
+id = 1
+
+[bed]
+device_path = "/dev/ttyS4"
+baud_rate = 115200
+id = 2
+
+[mainboard]
+device_path = "/tmp/dsp-serial"
+baud_rate = 115200
+id = 3

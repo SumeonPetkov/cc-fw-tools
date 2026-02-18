@@ -1,0 +1,23 @@
+###
+### This is the configuration for OpenCentauri Firmware
+###
+### You can edit variables in here to tweak settings in the FW!
+###
+
+OC_BOOTSTRAP_MD5=a0a2eb05011884f1ab281ed4980ee3a7
+
+# How long to wait until starting /app/app on boot
+# If non-zero, you can SSH in after boot and run 'noapp' to prevent start
+OC_APP_BOOT_DELAY=0
+
+# Default NTP Server
+OC_NTP_SERVER=pool.ntp.org
+
+# If this file exists, then auto noapp on boot
+# Designed to allow for a Raspberry Pi in gadget mode to plug in!
+OC_APP_GADGET=/dev/ttyACM0
+
+UBOOT=true
+UART=true
+KLIPPER_SETUP=true
+KLIPPER_DEPS=true

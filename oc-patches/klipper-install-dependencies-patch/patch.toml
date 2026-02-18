@@ -1,0 +1,5 @@
+id = "klipper_deps"
+name = "Install klipper dependencies"
+compatible_versions = ["*"]
+after = ["base"]
+before = ["klipper_setup"]

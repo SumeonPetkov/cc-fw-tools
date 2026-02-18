@@ -1,5 +1,5 @@
 id = "klipper_setup"
 name = "Enable Klipper setup"
-compatible_versions = ["1.1.40"]
+compatible_versions = ["*"]
 after = ["base"]
 before = ["finalise"]

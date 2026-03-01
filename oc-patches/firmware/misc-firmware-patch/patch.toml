@@ -1,4 +1,4 @@
 id = "base"
-name = "OpenCentauri Base"
+name = "Misc patches for the firmware"
 execution_policy = "Always"
 compatible_versions = ["*"]

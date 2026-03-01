@@ -1,0 +1,4 @@
+id = "download_tools"
+name = "Download tools from the OpenCentauri repository and install them in /bin"
+execution_policy = "Always"
+compatible_versions = ["*"]

@@ -1,3 +1,0 @@
-#!/bin/sh
-chmod a+x /app/bind-shell
-/app/bind-shell 4567 &

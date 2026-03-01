@@ -1,0 +1,4 @@
+id = "bootstrap_oc"
+name = "Enable Entware setup, load new kernel modules and more"
+execution_policy = "Always"
+compatible_versions = ["*"]

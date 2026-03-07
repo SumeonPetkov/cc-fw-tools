@@ -55,6 +55,8 @@ cat "$CURRENT_PATCH_PATH/mount_usb_daemon" > ./usr/sbin/mount_usb_daemon
 chmod 755 ./usr/sbin/mount_usb_daemon
 
 cp "$CURRENT_PATCH_PATH/oc-bootstrap" ./etc/init.d/oc-bootstrap
+sed -re "s|%OC_NTP_SERVER%|$OC_NTP_SERVER|g" -i ./etc/init.d/oc-bootstrap
 chmod 755 ./etc/init.d/oc-bootstrap
 ln -s ../init.d/oc-bootstrap ./etc/rc.d/S81oc-bootstrap
 chmod 755 ./etc/rc.d/S81oc-bootstrap
+

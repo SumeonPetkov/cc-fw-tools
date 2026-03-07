@@ -3,6 +3,7 @@
 START=81
 
 boot() {
+    mount_root done
     # INITIALIZE OpenCentauri and entware
     mkdir -p /user-resource/OpenCentauri/entware \
             /user-resource/OpenCentauri/root \

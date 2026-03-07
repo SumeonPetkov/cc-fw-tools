@@ -54,7 +54,7 @@ chmod 755 ./usr/sbin/mount_usb
 cat "$CURRENT_PATCH_PATH/mount_usb_daemon" > ./usr/sbin/mount_usb_daemon
 chmod 755 ./usr/sbin/mount_usb_daemon
 
-cp "$CURRENT_PATCH_PATH/bootstrap-oc" ./etc/init.d/bootstrap-oc
-chmod 755 ./etc/init.d/bootstrap-oc
-ln -s ../init.d/bootstrap-oc ./etc/rc.d/S81bootstrap-oc
-chmod 755 ./etc/rc.d/S81bootstrap-oc
+cp "$CURRENT_PATCH_PATH/oc-bootstrap" ./etc/init.d/oc-bootstrap
+chmod 755 ./etc/init.d/oc-bootstrap
+ln -s ../init.d/oc-bootstrap ./etc/rc.d/S81oc-bootstrap
+chmod 755 ./etc/rc.d/S81oc-bootstrap

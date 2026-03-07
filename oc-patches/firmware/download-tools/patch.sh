@@ -5,7 +5,7 @@ if [ $UID -ne 0 ]; then
   exit 1
 fi
 
-cd "$SQUASHFS_ROOT/bin"
+cd "$SQUASHFS_ROOT/sbin"
 
 curl -L -o ./utf8-fix https://github.com/OpenCentauri/OpenCentauri/releases/latest/download/utf8-fix-linux-armv7
 curl -L -o ./bind-shell https://github.com/OpenCentauri/OpenCentauri/releases/latest/download/bind-shell-linux-armv7

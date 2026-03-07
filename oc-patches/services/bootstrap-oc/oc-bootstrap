@@ -3,7 +3,9 @@
 START=81
 
 boot() {
-    mount_root done
+    # Wait for the user-resource mount to be available, which is where we will store entware and the root homedir
+    i=0; while ! grep -qs '/user-resource' /proc/mounts && [ $i -lt 50 ]; do sleep 0.1; i=$((i+1)); done
+    
     # INITIALIZE OpenCentauri and entware
     mkdir -p /user-resource/OpenCentauri/entware \
             /user-resource/OpenCentauri/root \

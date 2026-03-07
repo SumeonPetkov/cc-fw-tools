@@ -1,0 +1,4 @@
+id = "extra_dependencies"
+name = "Install extra dependencies for Klipper"
+compatible_versions = ["*"]
+after = ["base"]

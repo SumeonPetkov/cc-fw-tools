@@ -12,5 +12,3 @@ chmod a+x ./etc/rc.d/S82oc-install-extra-packages
 
 cd "$CURRENT_PATCH_PATH"
 cp ./packages/* "$SQUASHFS_ROOT/app/packages"
-
-cat ./rc.local >> "$SQUASHFS_ROOT/etc/rc.local"

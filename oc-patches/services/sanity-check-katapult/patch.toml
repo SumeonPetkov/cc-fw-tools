@@ -1,0 +1,4 @@
+id = "recover_mcu_bootloaders"
+name = "Recover bootloaders in case they got flashed by katapult/klipper"
+compatible_versions = ["*"]
+after = ["base"]

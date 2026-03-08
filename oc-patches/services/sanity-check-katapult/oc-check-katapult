@@ -1,0 +1,43 @@
+#!/bin/sh /etc/rc.common
+
+boot() {
+    echo 201 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio201/direction
+    echo "Turning on bed..."
+    echo 1 > /sys/class/gpio/gpio201/value
+    echo 201 > /sys/class/gpio/unexport
+
+    echo 140 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio140/direction
+    echo "Turning on hotend..."
+    echo 1 > /sys/class/gpio/gpio140/value
+    echo 140 > /sys/class/gpio/unexport
+
+    sleep 3
+
+    if [ ! -d "/dev/serial/by-id" ]; then
+        echo "No serial devices found, assuming something went wrong. We cannot continue!"
+        return 0
+    fi
+    
+    cd /dev/serial/by-id
+    
+    set -- usb-Klipper*
+    if [ -e "$1" ]; then
+        file=$1
+    fi
+
+    set -- usb-katapult*
+    if [ -e "$1" ]; then
+        file=$1
+    fi
+
+    if [ ! -e "$file" ]; then
+        echo "No klipper/katapult serial device found, cannot continue!"
+        return 0
+    fi
+
+    # TODO: Find a better location on disk for all these random files
+    katapult-flashtool -d "/dev/serial/by-id/$file" -f /app/toolhead-official-deployer.bin
+    katapult-flashtool -d "/dev/ttyS4" -f /app/bed-official-deployer.bin
+}

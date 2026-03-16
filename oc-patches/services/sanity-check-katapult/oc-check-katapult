@@ -39,5 +39,5 @@ boot() {
 
     # TODO: Find a better location on disk for all these random files
     katapult-flashtool -d "/dev/serial/by-id/$file" -f /app/toolhead-official-deployer.bin
-    katapult-flashtool -d "/dev/ttyS4" -f /app/bed-official-deployer.bin
+    katapult-flashtool -d "/dev/ttyS4" -f /app/bed-official-deployer.bin -b 115200
 }

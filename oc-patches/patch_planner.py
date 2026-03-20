@@ -93,7 +93,10 @@ def list_patches_dir() -> list[str]:
     return [os.path.join(PATCHES_ROOT, x) for x in os.listdir(PATCHES_ROOT)]
 
 def load_patches() -> list[Patch]:
-    folders = [x for x in list_patches_dir() if os.path.isdir(x) and os.path.isfile(os.path.join(x, "patch.toml"))]
+    folders = []
+    for root, _, files in os.walk(PATCHES_ROOT):
+        if "patch.toml" in files:
+            folders.append(root)
     return [Patch(load_toml(os.path.join(x, "patch.toml")), x) for x in folders]
 
 def add_to_dict(d : dict[str, list[str]], key : str, value : str):

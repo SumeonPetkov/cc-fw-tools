@@ -1,4 +1,0 @@
-id = "fix_utf8_corruption"
-name = "Automatically fix corruption in /user-resource/file_info/file_info.txt"
-after = ["base"]
-compatible_versions = ["*"]

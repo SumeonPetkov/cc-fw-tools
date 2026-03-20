@@ -4,7 +4,7 @@ wlan_conf="/board-resource/wlan_entery"
 wlan_conf_str="/tmp/wlan_entery_str"
 #strings "$wlan_conf" > "$wlan_conf_str"
 # Run Sims' awesome wifi network config extractor!
-/app/wifi-network-config-tool /board-resource/wlan_entery extract | strings > "$wlan_conf_str"
+wifi-network-config-tool /board-resource/wlan_entery extract | strings > "$wlan_conf_str"
 
 echo "Cleanup old wlan stuff..."
 kill $(cat /tmp/wlan0_udhcpc.pid) &>/dev/null

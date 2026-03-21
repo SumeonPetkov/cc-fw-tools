@@ -1,8 +1,11 @@
 update/*.swu
+update2/*.swu
 FW/*.bin
 FW/*.swu
 FW/*.zip
+FW/*.sig
 unpacked/*
+unpacked2/
 installed_options.log
 auto_install.cfg
 printer*.cfg

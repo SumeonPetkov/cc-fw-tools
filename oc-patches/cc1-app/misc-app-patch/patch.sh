@@ -13,7 +13,7 @@ cp ../../RESOURCES/KEYS/swupdate_public.pem ./etc/swupdate_public_oc.pem
 cp ../../RESOURCES/KEYS/swupdate_public_cc.pem ./etc/swupdate_public_cc.pem
 
 echo Applying UTF-8 fix to prevent webui from breaking
-echo "/bin/utf8-fix /user-resource/file_info/file_info.txt" >> "./etc/rc.local"
+echo "/sbin/utf8-fix /user-resource/file_info/file_info.txt" >> "./etc/rc.local"
 
 echo 'Update web interface JavaScript and overlay image(s)'
 cat "$CURRENT_PATCH_PATH/opencentauri-logo-small.png" > ./app/resources/www/assets/images/network/logo.png

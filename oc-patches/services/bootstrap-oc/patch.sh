@@ -31,6 +31,7 @@ chmod 644 ./app/OpenCentauri-bootstrap.tar.gz
 echo 'Add symlink for /lib/modules/ for the 1.1.40 FW w/ new kernel ver 5.4.61-ab1175 (harmless for earlier revs)'
 cd ./lib/modules
 ln -sf 5.4.61 5.4.61-ab1175
+ln -sf 5.4.61 5.4.61-ab1434
 cd -
 
 echo "Install Ethernet kmod(s)"

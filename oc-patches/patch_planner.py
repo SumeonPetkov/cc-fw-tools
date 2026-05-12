@@ -1,3 +1,4 @@
+import argparse
 import tomllib
 from enum import Enum
 import os
@@ -14,16 +15,18 @@ SQUASHFS_ROOT = os.getenv("SQUASHFS_ROOT", os.path.join(EXTRACTED_FW_ROOT, "squa
 PATCHES_ROOT = os.getenv("PATCHES_ROOT", os.path.dirname(__file__))
 FW_VER = ""
 
-with open(os.path.join(PATCHES_ROOT, "patch_config")) as f:
-    for line in f:
-        if line.startswith("#"):
-            continue
+patch_config_path = os.path.join(PATCHES_ROOT, "patch_config")
+if os.path.isfile(patch_config_path):
+    with open(patch_config_path) as f:
+        for line in f:
+            if line.startswith("#"):
+                continue
 
-        items = line.strip().split("=", 1)
-        if len(items) >= 2:
-            key, value = items
-            if key and value:
-                os.environ[key] = value
+            items = line.strip().split("=", 1)
+            if len(items) >= 2:
+                key, value = items
+                if key and value:
+                    os.environ[key] = value
 
 class ExecutionPolicy(Enum):
     always = 1
@@ -114,16 +117,42 @@ def find_by_id(patches : list[Patch], patch_id : str) -> Patch:
     logging.fatal(f"Failed to find patch {patch_id}")
     exit(1)
 
+def parse_args(argv : list[str]) -> tuple[str, bool, list[str]]:
+    parser = argparse.ArgumentParser(description="Plan and apply firmware patches.")
+    parser.add_argument("fw_version", help="Firmware version string.")
+    parser.add_argument("--dry-run", action="store_true", help="Print patch plan without executing.")
+    parser.add_argument("--only", action="append", default=[], help="Patch id to run; repeat or comma-separated.")
+    args = parser.parse_args(argv[1:])
+
+    only_ids : list[str] = []
+    for entry in args.only:
+        for patch_id in entry.split(","):
+            patch_id = patch_id.strip()
+            if patch_id:
+                only_ids.append(patch_id)
+
+    return args.fw_version, args.dry_run, only_ids
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s", handlers=[logging.StreamHandler(sys.stdout)])
 
-    if len(sys.argv) <= 1:
-        logging.fatal("Usage: python3 patch_planner.py <fw_version> [--dry-run]")
-        sys.exit(1)
-
-    FW_VER = sys.argv[1]
+    fw_ver, dry_run, only_ids = parse_args(sys.argv)
+    FW_VER = fw_ver
 
     available_patches = load_patches()
+    if only_ids:
+        available_patch_ids = {x.id for x in available_patches}
+        missing = [x for x in only_ids if x not in available_patch_ids]
+        if missing:
+            logging.fatal(f"Unknown patch id(s): {', '.join(missing)}")
+            sys.exit(1)
+
+        only_id_set = set(only_ids)
+        available_patches = [x for x in available_patches if x.id in only_id_set]
+
+        for patch_id in only_ids:
+            os.environ[patch_id.upper()] = "true"
+
     executable_patches = [x for x in available_patches if x.can_execute()]
     executable_patch_ids = [x.id for x in executable_patches]
     for patch in executable_patches:
@@ -132,6 +161,8 @@ if __name__ == "__main__":
     graph = {}
 
     for patch in executable_patches:
+        if patch.id not in graph:
+            graph[patch.id] = []
         for before in patch.before:
             add_to_dict(graph, before, patch.id)
         
@@ -146,7 +177,7 @@ if __name__ == "__main__":
     for patch in patch_plan:
         logging.info(f"- '{patch.name}'")
     
-    if "--dry-run" in sys.argv:
+    if dry_run:
         exit(0)
 
     logging.info("")

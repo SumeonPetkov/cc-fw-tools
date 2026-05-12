@@ -1,0 +1,138 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=10
+
+STATE_DIR=/var/lib/tailscale
+RUN_DIR=/var/run/tailscale
+STATE_FILE=/root/tailscaled.state
+SOCKET=$RUN_DIR/tailscaled.sock
+DAEMON_PID=/var/run/tailscaled.pid
+TAILSCALED_LOG=/tmp/tailscaled.log
+BOOT_LOG=/tmp/tailscale-boot.log
+
+TS=/root/tailscale
+TSD=/root/tailscaled
+
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') $1" >> "$BOOT_LOG"
+}
+
+ts() {
+    "$TS" --socket="$SOCKET" "$@"
+}
+
+start_daemon() {
+    if [ -f "$DAEMON_PID" ]; then
+        PID=$(cat "$DAEMON_PID" 2>/dev/null)
+        if [ -n "$PID" ] && kill -0 "$PID" 2>/dev/null; then
+            log "tailscaled already running with pid $PID"
+            return 0
+        fi
+    fi
+
+    mkdir -p "$STATE_DIR" "$RUN_DIR"
+    chmod +x "$TSD" "$TS"
+
+    log "starting tailscaled"
+    "$TSD" \
+        --tun=userspace-networking \
+        --state="$STATE_FILE" \
+        --socket="$SOCKET" \
+        >"$TAILSCALED_LOG" 2>&1 &
+    echo $! > "$DAEMON_PID"
+}
+
+wait_for_daemon() {
+    i=0
+    while [ $i -lt 30 ]; do
+        [ -S "$SOCKET" ] && return 0
+        sleep 1
+        i=$((i+1))
+    done
+    return 1
+}
+
+wait_for_network() {
+    i=0
+    while [ $i -lt 60 ]; do
+        IP=$(ip addr show wlan0 2>/dev/null | awk '/inet / {print $2}')
+        [ -n "$IP" ] && return 0
+        sleep 2
+        i=$((i+1))
+    done
+    return 1
+}
+
+ensure_logged_in() {
+    if ts status >/dev/null 2>&1; then
+        log "tailscale already logged in"
+        return 0
+    fi
+
+    if [ -s "$STATE_FILE" ]; then
+        log "state file exists but status failed; not forcing tailscale up automatically"
+        return 0
+    fi
+
+    log "no usable state; manual first-time tailscale up required"
+    return 1
+}
+
+configure_serve() {
+    log "configuring serve"
+    ts serve --bg --http=80 http://192.168.1.36:80
+    ts serve --bg --tcp=3030 tcp://192.168.1.36:3030
+    ts serve --bg --tcp=3031 tcp://192.168.1.36:3031
+    ts serve --bg --tcp=2222 tcp://192.168.1.36:22
+
+}
+
+start() {
+    : > "$BOOT_LOG"
+    log "service start"
+
+    if ! wait_for_network; then
+        log "network not ready"
+        echo "network not ready"
+        return 1
+    fi
+    log "network ready"
+
+    ntpdate pool.ntp.org >> "$BOOT_LOG" 2>&1
+
+    start_daemon
+
+    if ! wait_for_daemon; then
+        log "tailscaled socket not ready"
+        echo "tailscaled socket not ready"
+        return 1
+    fi
+    log "tailscaled socket ready"
+
+    ensure_logged_in
+    configure_serve
+    log "service start complete"
+}
+
+stop() {
+    log "service stop"
+    if [ -f "$DAEMON_PID" ]; then
+	ts serve reset
+	ts serve off
+        kill "$(cat "$DAEMON_PID" 2>/dev/null)" 2>/dev/null || true
+        rm -f "$DAEMON_PID"
+    fi
+}
+
+restart() {
+    stop
+    sleep 2
+    start
+}
+
+status() {
+    ps | grep "$TSD" | grep -v grep || echo "tailscaled not running"
+    ts status 2>/dev/null || echo "tailscale not connected"
+    ts serve status 2>/dev/null || echo "serve not configured"
+}

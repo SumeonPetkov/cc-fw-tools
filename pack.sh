@@ -29,6 +29,8 @@ mksquashfs squashfs-root rootfs -comp xz -all-root
 
 # check if the updated rootfs can fit in the partitions rootfsA/B
 file_size=$(wc -c rootfs | awk '{print $1}')
+size_mib=$(awk -v s="$file_size" 'BEGIN {printf "%.2f", s/1048576}')
+echo -e "${YELLOW}INFO: rootfs size is ${file_size} bytes (${size_mib} MiB)${NC}"
 if [ "$file_size" -ge 134217729 ]; then
   echo -e "${RED}ERROR: The size of the file 'unpacked/rootfs' is larger than the max 128MB allowed.\Please disable some of the less important options and try again! ${NC}"
   cd ..

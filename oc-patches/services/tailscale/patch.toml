@@ -1,0 +1,5 @@
+id = "tailscale"
+name = "Install Tailscale"
+execution_policy = "Always"
+compatible_versions = ["*"]
+after = ["bootstrap_oc"]
